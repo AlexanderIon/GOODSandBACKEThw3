@@ -43,14 +43,15 @@ class GoodsList{
         this.sortPrice = sortPrice;
         this.sortDir = sortDir;
     }
-    get get_list(){
+    get list(){
+        let filter_list = this.#any_goods
         if (this.filter ==="") {
             if (this.sortPrice === true && this.sortDir === true){
-                this.#any_goods.sort((el2,el1)=>el2.price-el1.price)
+                filter_list.sort((el2,el1)=>el2.price-el1.price)
             }
             else{
                 if (this.sortPrice === true){
-                    this.any_goods = this.any_goods.sort((el2,el1)=> el1.price-el2.price)
+                    filter_list = filter_list.sort((el2,el1)=> el1.price-el2.price)
                 }
                 // else{
 
@@ -59,11 +60,11 @@ class GoodsList{
             }
         }
         else{
-            this.#any_goods = this.#any_goods.filter((good) =>  this.filter.test(good.name)=== true);
-            this.#any_goods.sort((el2,el1)=> el2.price-el1.price)
+            filter_list = filter_list.filter((good) =>  this.filter.test(good.name)=== true);
+            filter_list.sort((el2,el1)=> el2.price-el1.price)
             
             }
-        return this.#any_goods    
+        return filter_list    
     }
     add(new_id,new_name,new_descriptio,new_sizes,new_price,new_available){
         const new_good = new Good(new_id,new_name,new_descriptio,new_sizes,new_price,new_available);
@@ -71,14 +72,15 @@ class GoodsList{
 
     }
     remove(id){
-        const index_el = this.any_goods.findIndex((el)=> el.id===id)
+        const index_el = this.#any_goods.findIndex((el)=> el.id===id)
         if (index_el <0){
-            console.log(index_el)
+            console.log("ТОВАРА с ID ",index_el, "НЕТ")
 
         } 
         else{
-            delete this.any_goods[index_el]
-            console.log(this.any_goods)
+            // delete this.#any_goods[index_el]
+            this.#any_goods.splice(index_el,1)
+            console.log("ВЫ УДАЛИЛИ из списка покупок товар ",{index_el})
         }
 
     }
@@ -96,11 +98,29 @@ const list_goods = new GoodsList(goods)
 list_goods.filter = /шап/iu
 list_goods.sortDir = true;
 list_goods.sortPrice = true;
-console.log(list_goods.get_list)
+
+
+console.log("ВЫВОД GOODS LIST")
+console.log(list_goods)
+list_goods.print()
+console.log("ВЫВОД list")
+console.log(list_goods.list)
+
+
 
 console.log("ПРОВЕРКА ADD ")
 list_goods.add(9,"курта","новая кожанная",54,11111,true)
 list_goods.print()
+
+console.log("ПРОВЕРКА remove не сушеств ")
+list_goods.remove(23)
+list_goods.print()
+console.log("ПРОВЕРКА remove id 4 ")
+
+list_goods.remove(4)
+list_goods.print()
+console.log(list_goods)
+
 
 
 class BasketGood extends Good{
@@ -174,28 +194,28 @@ class Backet {
 
 
 
-const MyBacket = new Backet(BacketGoods)
+// const MyBacket = new Backet(BacketGoods)
 
-console.log("ПРОВЕРКА ОБШЕГО кол-во")
-console.log(MyBacket.goods)
+// console.log("ПРОВЕРКА ОБШЕГО кол-во")
+// console.log(MyBacket.goods)
 
-console.log(MyBacket.totalAmount)
-console.log(MyBacket.totalSum)
-console.log("ПРОверка ДОБАВЛЕНИЯ")
-MyBacket.add(good5,14)
+// console.log(MyBacket.totalAmount)
+// console.log(MyBacket.totalSum)
+// console.log("ПРОверка ДОБАВЛЕНИЯ")
+// MyBacket.add(good5,14)
 
-MyBacket.add(good8,20)
+// MyBacket.add(good8,20)
 
-console.log(MyBacket)
+// console.log(MyBacket)
 
-console.log(MyBacket.totalAmount)
-console.log(MyBacket.totalSum)
+// console.log(MyBacket.totalAmount)
+// console.log(MyBacket.totalSum)
 
-MyBacket.remove(good8,23)
+// MyBacket.remove(good8,23)
 
-MyBacket.remove(good8,23)
-console.log(MyBacket.goods)
+// MyBacket.remove(good8,23)
+// console.log(MyBacket.goods)
 
-console.log(MyBacket)
+// console.log(MyBacket)
 
 
